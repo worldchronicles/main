@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>World Chronicles — Minecraft Nations Server</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Minecraft font -->
+  <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Minecraft', sans-serif;
+      background: url("https://i.imgur.com/4ci69vS.png") no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+    }
+
+    header {
+      margin-top: 20px;
+      position: relative;
+    }
+
+    header img {
+      width: 500px;
+      max-width: 90%;
+      image-rendering: pixelated;
+    }
+
+    /* LOGIN AREA */
+    .login-area {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px;
+      border-radius: 6px;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 60;
+    }
+
+    .login-area input {
+      padding: 6px 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 2px solid #333;
+    }
+
+    .login-btn, .logout-btn {
+      background: #3a9a3a;
+      border: 3px solid #1f511f;
+      padding: 6px 16px;
+      color: #fff;
+      border-radius: 6px;
+      box-shadow: 2px 2px #000;
+      cursor: pointer;
+      transition: transform 0.1s, background 0.2s;
+    }
+
+    .login-btn:hover, .logout-btn:hover {
+      background: #46c746;
+      transform: scale(1.05);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-info img {
+      width: 28px;
+      height: 28px;
+      image-rendering: pixelated;
+      border: 2px solid #222;
+      border-radius: 4px;
+    }
+
+    /* keep the rest of your styles (unchanged) */
+    .content {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 25px;
+      margin: 30px auto;
+      width: 85%;
+      border: 4px solid #444;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #000;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 { font-size: 32px; margin-bottom: 15px; text-shadow: 3px 3px #000; }
+    p { font-size: 18px; line-height: 1.5; }
+
+    .ip-box { display: inline-block; background: #222; border: 3px solid #fff; padding: 12px 24px; margin: 15px 0; font-size: 20px; border-radius: 6px; text-shadow: 2px 2px #000; cursor: pointer; }
+
+    .buttons { margin-top: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+
+    .btn { display: inline-block; background: #3a9a3a; border: 3px solid #1f511f; padding: 12px 30px; font-size: 18px; text-decoration: none; color: #fff; border-radius: 6px; box-shadow: 4px 4px #000; text-shadow: 2px 2px #000; transition: transform 0.1s, background 0.2s; }
+    .btn:hover { background: #46c746; transform: scale(1.05); }
+
+    .map-wrapper { position: relative; margin: 40px auto; width: 80%; max-width: 1000px; }
+    .map-frame { width: 100%; height: 450px; border: 4px solid #fff; border-radius: 8px; position: relative; z-index: 2; background: #000; }
+    .char { position: absolute; bottom: -20px; z-index: 1; max-height: 360px; image-rendering: pixelated; opacity: 0.95; }
+    .char.left { left: -200px; }
+    .char.right { right: -250px; }
+
+    .commands { text-align: left; margin: 25px auto; width: 75%; background: rgba(20, 20, 20, 0.85); padding: 20px; border-radius: 8px; border: 2px solid #555; }
+    .commands h2 { margin-top: 0; font-size: 22px; border-bottom: 2px solid #444; padding-bottom: 5px; text-shadow: 2px 2px #000; }
+
+    .coming-soon { margin: 50px auto; text-align: center; }
+    .coming-soon img { width: 450px; max-width: 90%; image-rendering: pixelated; }
+    .coming-soon p { font-size: 28px; color: #ffd700; text-shadow: 2px 2px 5px #000, 0 0 10px #ffbf00, 0 0 20px #ffaa00; margin-top: 15px; font-weight: bold; }
+
+    footer { margin: 20px; font-size: 14px; color: #bbb; }
+
+    @media (max-width: 520px) {
+      .login-area { position: static; margin-top: 10px; justify-content: center; }
+      header img { max-width: 85%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <!-- Logo -->
+  <img src="https://i.imgur.com/JIOi31Q.png" alt="World Chronicles Logo">
+
+  <!-- LOGIN: username input + sign in (top-right) -->
+  <div class="login-area" id="loginArea">
+    <input type="text" id="usernameInput" placeholder="Minecraft Username">
+    <button class="login-btn" id="signInBtn">Sign in</button>
+  </div>
+</header>
+
+<div class="content">
+  <h1>Welcome to World Chronicles!</h1>
+  <p>
+    World Chronicles is a nations-based Minecraft server set on a real-world map.<br>
+    Build your nation, form alliances, declare wars, and shape history itself.<br>
+    Our rules ensure the server remains fair, fun, and immersive.
+  </p>
+
+  <div class="ip-box">
+    Server IP: <strong>147.185.221.31:52978</strong><br>
+    Version: 1.21.8 (Java Edition)
+  </div>
+
+  <div class="buttons">
+    <a href="#" class="btn">Home</a>
+    <a href="#" class="btn">Shop (Coming Soon)</a>
+    <a href="http://alternative-stylus.gl.at.ply.gg:2308/#world:13560:0:7516:5062:0:0:0:0:perspective" 
+       target="_blank" class="btn">View Full Map</a>
+  </div>
+
+  <div class="map-wrapper">
+    <!-- Steve left -->
+    <img src="https://i.imgur.com/bNeuNf0.png" alt="Steve" class="char left">
+    <!-- Alex right -->
+    <img src="https://i.imgur.com/qVIOhjH.png" alt="Alex" class="char right">
+
+    <iframe class="map-frame" 
+      src="http://alternative-stylus.gl.at.ply.gg:2308/#world:13560:0:7516:5062:0:0:0:0:perspective">
+    </iframe>
+  </div>
+
+  <div class="commands">
+    <h2>Basic Commands</h2>
+    <p>
+      /warp spawn — Teleport to Spawn<br>
+      /sethome — Set your home location<br>
+      /home — Return to your home<br>
+      /balance — Check your balance (1 Diamond = $1, exchange at Spawn)<br>
+      /rtp — Random teleport (usable once every 10 minutes)<br>
+      /kit starter — Claim your starter kit
+    </p>
+
+    <h2>Advanced Commands</h2>
+    <p>
+      /ah — Open the Auction House<br>
+      /nations create &lt;name&gt; — Create a new nation<br>
+      /nations claim — Claim land by walking on chunks<br>
+      /nations info &lt;nation&gt; — View info about a nation<br>
+      /nations map — Display a nation map<br>
+      /nations list — List all nations ranked by kill points
+    </p>
+  </div>
+
+  <!-- COMING SOON SECTION -->
+  <div class="coming-soon">
+    <img src="https://i.imgur.com/SpwHKtV.png" alt="Next Update Logo">
+    <p>Coming Soon</p>
+  </div>
+</div>
+
+<footer>
+  © 2025 World Chronicles — Season 1. World Chronicles is an independent Minecraft server project and is not affiliated with, endorsed by, or associated with Mojang AB or Microsoft.
+</footer>
+
+<!-- Improved login behavior with fallbacks (client-side prototype) -->
+<script>
+(function () {
+  const loginArea = document.getElementById('loginArea');
+
+  const STORAGE_KEY = 'wc_logged_user_v2';
+
+  function saveUser(obj) { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function loadUser() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch(e) { return null; } }
+  function clearUser() { localStorage.removeItem(STORAGE_KEY); }
+
+  // Try 3 endpoints (PlayerDB -> MineTools -> Mojang). PlayerDB / MineTools are commonly CORS-friendly.
+  async function resolveUUID(username) {
+    username = (username || '').trim();
+    if (!username) throw new Error('empty');
+
+    const endpoints = [
+      {
+        url: 'https://playerdb.co/api/player/minecraft/' + encodeURIComponent(username),
+        parse: async (r) => {
+          const j = await r.json();
+          if (j && j.success && j.data && j.data.player && j.data.player.id) {
+            return { id: j.data.player.id, name: j.data.player.username || username };
+          }
+          return null;
+        }
+      },
+      {
+        url: 'https://api.minetools.eu/uuid/' + encodeURIComponent(username),
+        parse: async (r) => {
+          const j = await r.json();
+          if (j && (j.id || j.uuid)) return { id: j.id || j.uuid, name: j.name || username };
+          return null;
+        }
+      },
+      {
+        url: 'https://api.mojang.com/users/profiles/minecraft/' + encodeURIComponent(username),
+        parse: async (r) => {
+          const j = await r.json();
+          if (j && j.id) return { id: j.id, name: j.name || username };
+          return null;
+        }
+      }
+    ];
+
+    for (const ep of endpoints) {
+      try {
+        const res = await fetch(ep.url);
+        if (!res.ok) continue;
+        const parsed = await ep.parse(res);
+        if (parsed && parsed.id) {
+          return { uuid: parsed.id.replace(/-/g, ''), name: parsed.name };
+        }
+      } catch (e) {
+        // try next endpoint if one fails (likely due to CORS or network)
+        console.warn('endpoint failed', ep.url, e);
+      }
+    }
+
+    throw new Error('not_found');
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function renderLoggedIn(user) {
+    loginArea.innerHTML = `
+      <div class="user-info">
+        <img src="https://crafatar.com/avatars/${escapeHtml(user.uuid)}?size=28&overlay" alt="avatar">
+        <span>${escapeHtml(user.name)}</span>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    `;
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      clearUser();
+      renderLoggedOut();
+    });
+  }
+
+  function renderLoggedOut() {
+    loginArea.innerHTML = `
+      <input type="text" id="usernameInput" placeholder="Minecraft Username">
+      <button class="login-btn" id="signInBtn">Sign in</button>
+    `;
+
+    const input = document.getElementById('usernameInput');
+    const btn = document.getElementById('signInBtn');
+
+    btn.addEventListener('click', () => handleSignIn(input, btn));
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSignIn(input, btn); });
+  }
+
+  async function handleSignIn(inputEl, btnEl) {
+    const username = (inputEl.value || '').trim();
+    if (!username) { alert('Please enter a Minecraft username.'); inputEl.focus(); return; }
+
+    btnEl.disabled = true;
+    const prevText = btnEl.textContent;
+    btnEl.textContent = 'Checking...';
+
+    try {
+      const data = await resolveUUID(username);
+      saveUser(data);
+      renderLoggedIn(data);
+    } catch (err) {
+      console.error(err);
+      alert('Could not find that username or external API blocked the request. Check the spelling or try again later.');
+      btnEl.disabled = false;
+      btnEl.textContent = prevText;
+    }
+  }
+
+  // initialize
+  const existing = loadUser();
+  if (existing && existing.uuid && existing.name) {
+    renderLoggedIn(existing);
+  } else {
+    renderLoggedOut();
+  }
+
+  // keep fade-in
+  window.addEventListener('load', () => { document.body.style.opacity = 1; });
+})();
+</script>
+
+<!-- keep your original external script, if you have one -->
+<script src="script.js"></script>
+</body>
+</html>
